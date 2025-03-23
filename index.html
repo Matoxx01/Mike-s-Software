@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Registro de Usuario</title>
+    <title>Registro de Cliente</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <script src="script.js" type="module"></script>
@@ -16,20 +16,20 @@
         <!-- Botones de navegación (izquierda) -->
         <div class="toolbar-left">
             <button class="toolbar-btn">
-                <img src="/assets/icons/back.svg" alt="Atrás" />
+                <img src="./assets/icons/back.svg" alt="Atrás" />
             </button>
             <button class="toolbar-btn">
-                <img src="/assets/icons/forward.svg" alt="Adelante" />
+                <img src="./assets/icons/forward.svg" alt="Adelante" />
             </button>
             <button class="toolbar-btn">
-                <img src="/assets/icons/reload.svg" alt="Recargar" />
+                <img src="./assets/icons/reload.svg" alt="Recargar" />
             </button>
         </div>
 
         <!-- Barra de búsqueda (centro) -->
         <div class="toolbar-center">
             <div class="search-container">
-                <img src="/assets/icons/lupa.svg" alt="Buscar" />
+                <img src="./assets/icons/lupa.svg" alt="Buscar" />
                 <input type="text" placeholder="Rut..." />
                 <button class="search-btn">
                 </button>
@@ -38,40 +38,40 @@
 
         <!-- Foto de perfil y opciones (derecha) -->
         <div class="toolbar-right">
-            <img class="profile-img" src="/assets/images/no_photo.webp" alt="Foto de perfil" />
+            <img class="profile-img" src="./assets/images/no_photo.webp" alt="Foto de perfil" />
             <button class="toolbar-btn">
-                <img src="/assets/icons/more.svg" alt="Más opciones" />
+                <img src="./assets/icons/more.svg" alt="Más opciones" />
             </button>
         </div>
     </header>
 
-    <h2>Registro de Usuario</h2>
+    <h2>Registro de Cliente</h2>
     
     <form>
         <div class="rigthContainer">
             <div class="inputContainer">
                 <label for="rut">RUT:</label>
-                <input type="text" id="rut">
+                <input type="text" id="rut" placeholder="123456789">
             </div>
 
             <div class="inputContainer">
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre">
+                <input type="text" id="nombre" placeholder="Juan">
             </div>
 
             <div class="inputContainer">
                 <label for="apellido">Apellido:</label>
-                <input type="text" id="apellido">
+                <input type="text" id="apellido" placeholder="Perez">
             </div>
 
             <div class="inputContainer">
                 <label for="celular">Celular:</label>
-                <input type="text" id="celular">
+                <input type="text" id="celular" placeholder="999999999">
             </div>
 
             <div id="firmaclass" class="inputContainer">
                 <label for="mail">Mail:</label>
-                <input class="inputMail" type="email" id="mail">
+                <input class="inputMail" type="email" id="mail" placeholder="juanperez@sumail.com"">
             </div>
         </div>
         <div class="leftContainer">

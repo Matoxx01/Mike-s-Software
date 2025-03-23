@@ -28,13 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   moreOptionsBtn.addEventListener('click', () => {
     // Función de "más opciones" en desarrollo
-    showFlashMessage('Función de más opciones en desarrollo', 'info');
+    showFlashMessage('Función de más opciones en desarrollo', 'success');
   });
 
   // Gestión de usuario: al hacer click en la foto de perfil se puede invocar una función para gestionar el usuario
   const profileImg = document.querySelector('.toolbar-right .profile-img');
   profileImg.addEventListener('click', () => {
-    showFlashMessage('Función de gestionar usuario en desarrollo', 'info');
+    showFlashMessage('Función de gestionar usuario en desarrollo', 'success');
   });
 
   // --- Búsqueda de usuario por RUT en la barra de búsqueda ---
