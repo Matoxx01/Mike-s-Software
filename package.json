@@ -1,0 +1,21 @@
+{
+  "name": "mikes_software",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^35.0.3"
+  },
+  "dependencies": {
+    "firebase": "^11.5.0",
+    "signature_pad": "^5.0.7"
+  }
+}
