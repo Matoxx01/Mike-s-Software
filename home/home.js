@@ -5,6 +5,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // Inicializa Signature Pad sobre el canvas (asegúrate de haber cambiado el textarea por un canvas en el HTML)
   const canvas = document.getElementById('firmaCanvas');
   const signaturePad = new SignaturePad(canvas);
+  const clearButton = document.getElementById("clearCanvas");
+
+  // Obtén el nombre del localStorage
+  const empleado = JSON.parse(localStorage.getItem('empleado'));
+
+  // Si hay un empleado guardado, muestra el mensaje de bienvenida
+  if (empleado && empleado.name) {
+      showFlashMessage(`Bienvenido ${empleado.name}!`, 'success');
+  }
 
   // --- Eventos de la Toolbar ---
 
@@ -24,6 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   refreshBtn.addEventListener('click', () => {
     window.location.reload();
+  });
+
+  clearButton.addEventListener("click", function () {
+    signaturePad.clear();
   });
 
   moreOptionsBtn.addEventListener('click', () => {

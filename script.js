@@ -15,7 +15,6 @@ document.getElementById('btnIngresar').addEventListener('click', async () => {
       // Guarda localmente los datos (name, photo y clave)
       localStorage.setItem('empleado', JSON.stringify({
         name: empleado.name,
-        photo: empleado.photo,
         clave: clave
       }));
       // Redirige a la página de inicio

@@ -213,6 +213,26 @@ textarea {
     color: #5779E7;
 }
 
+.clearButton {
+    padding: 10px;
+    border: none;
+    background-color: #FF6F61;
+    color: white;
+    font-size: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 15px;
+    transition: background-color 0.3s, box-shadow 0.3s, border 0.3s;
+}
+
+.clearButton:hover {
+    background-color: #ffffff;
+    box-shadow: 0 0 10px #FF6F61;
+    border: 2px solid #FF6F61;
+    color: #FF6F61;
+}
+
 /* Flash Messages */
 
 .flash-messages {
