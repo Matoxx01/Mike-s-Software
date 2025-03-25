@@ -65,3 +65,24 @@ export async function searchUserByRut(rut) {
     throw error;
   }
 }
+
+/**
+ * Función para buscar un empleado en Firebase
+ * usando la clave ingresada en la ruta `empleados/{clave}`.
+ * @param {string} clave - La clave del empleado a buscar.
+ * @returns {Promise<Object|null>} - Objeto con los datos del empleado o null si no existe.
+ */
+export async function searchEmployee(clave) {
+  const employeeRef = ref(db, `empleados/${clave}`);
+  try {
+    const snapshot = await get(employeeRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error al buscar empleado:", error);
+    throw error;
+  }
+}

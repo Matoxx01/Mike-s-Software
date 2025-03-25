@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    background-color: #B6DCFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    text-align: center;
+  }
+  
+  /* Animación del texto "Ingresa tu clave" */
+  .scale-up-center {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 200;
+    font-size: 48px;
+    animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+  }
+
+  /* Flash Messages */
+
+  .flash-messages {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    width: auto;
+  }
+
+  .alert {
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 14px;
+    animation: fade-in-out 5s forwards;
+  }
+
+  .alert.success {
+    background-color: #4CAF50;
+  }
+
+  .alert.danger {
+    background-color: #F44336;
+  }
+
+  /* Animación para desaparecer el mensaje */
+  @keyframes fade-in-out {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
+  @keyframes scale-up-center {
+    0% {
+      transform: scale(0.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Estilo y animación para el input (de abajo hacia arriba) */
+  input {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    opacity: 0;
+    animation: slide-up 0.4s ease forwards;
+  }
+  
+  @keyframes slide-up {
+    from {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Estilo y animación para el botón */
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    opacity: 0;
+    animation: fade-in 0.4s ease forwards;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  button:hover {
+    background-color: #e0e0e0;
+  }
+  
