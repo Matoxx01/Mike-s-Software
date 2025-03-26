@@ -43,9 +43,56 @@ body {
     justify-content: center;
 }
 
+/* Dropdown menu moderno */
+.dropdown-menu {
+    position: absolute;
+    top: 110%; /* Un poco más abajo del botón */
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 160px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Lista sin viñetas */
+.uldropdown {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cada opción del menú */
+.lidropdown {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.lidropdown:hover {
+    background-color: #f0f0f0;
+}
+
+/* Estilos para los enlaces */
+.adropdown {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
 /* Para que la parte derecha quede pegada a la derecha */
 .toolbar-right {
     margin-left: auto;
+    position: relative;
 }
 
 /* Botones de la toolbar */

@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const forwardBtn = document.querySelector('.toolbar-left button:nth-child(2)');
   const refreshBtn = document.querySelector('.toolbar-left button:nth-child(3)');
   const moreOptionsBtn = document.querySelector('.toolbar-right button');
+  const moreOptionsMenu = document.getElementById('moreOptionsMenu');
 
   backBtn.addEventListener('click', () => {
     window.history.back();
@@ -39,15 +40,30 @@ document.addEventListener("DOMContentLoaded", () => {
     signaturePad.clear();
   });
 
-  moreOptionsBtn.addEventListener('click', () => {
-    // Función de "más opciones" en desarrollo
-    showFlashMessage('Función de más opciones en desarrollo', 'success');
+  // Si el usuario no es admin, ocultamos la opción de "Gestion de empleados"
+  if (!empleado || !empleado.admin) {
+    const manageEmployeesItem = document.getElementById('manageEmployees');
+    manageEmployeesItem.style.display = "none";
+  }
+
+  // Al hacer click en el botón se alterna la visibilidad del menú
+  moreOptionsBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Evita que el clic se propague y cierre el menú de inmediato
+    moreOptionsMenu.classList.toggle('show');
   });
 
-  // Gestión de usuario: al hacer click en la foto de perfil se puede invocar una función para gestionar el usuario
-  const profileImg = document.querySelector('.toolbar-right .profile-img');
-  profileImg.addEventListener('click', () => {
-    showFlashMessage('Función de gestionar usuario en desarrollo', 'success');
+  // Cerrar el menú al hacer clic en cualquier parte fuera del menú
+  document.addEventListener('click', (e) => {
+    if (moreOptionsMenu.classList.contains('show')) {
+      moreOptionsMenu.classList.remove('show');
+    }
+  });
+
+  // Cerrar el menú al hacer clic en cualquier parte fuera del menú
+  document.addEventListener('click', (e) => {
+    if (moreOptionsMenu.style.display === "block") {
+      moreOptionsMenu.style.display = "none";
+    }
   });
 
   // --- Búsqueda de usuario por RUT en la barra de búsqueda ---

@@ -1,5 +1,13 @@
 import { searchEmployee } from './database/firebase.js';
 
+// Evento para detectar "Enter" en el input
+document.getElementById("clave").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+      event.preventDefault(); // Evita el comportamiento por defecto
+      document.getElementById("btnIngresar").click(); // Simula el clic en el botón
+  }
+});
+
 // Evento del botón "Ingresar"
 document.getElementById('btnIngresar').addEventListener('click', async () => {
   const clave = document.getElementById('clave').value.trim();
@@ -15,6 +23,7 @@ document.getElementById('btnIngresar').addEventListener('click', async () => {
       // Guarda localmente los datos (name, photo y clave)
       localStorage.setItem('empleado', JSON.stringify({
         name: empleado.name,
+        admin: !!empleado.admin,
         clave: clave
       }));
       // Redirige a la página de inicio

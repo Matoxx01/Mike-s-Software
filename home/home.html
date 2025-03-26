@@ -36,11 +36,22 @@
             </div>
         </div>
 
-        <!-- Foto de perfil y opciones (derecha) -->
+        <!-- opciones (derecha) -->
         <div class="toolbar-right">
-            <button class="toolbar-btn">
+            <button class="toolbar-btn" id="moreOptionsBtn">
                 <img src="../assets/icons/more.svg" alt="Más opciones" />
             </button>
+            <!-- Menú desplegable oculto por defecto -->
+            <div class="dropdown-menu" id="moreOptionsMenu">
+                <ul class="uldropdown">
+                    <li id="viewUsers" class="lidropdown">
+                        <a href="./users/users.html" class="adropdown">Ver Usuarios</a>
+                    </li>
+                    <li id="manageEmployees" class="lidropdown">
+                        <a href="./manage/manage.html" class="adropdown">Gestion de empleados</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </header>
 
