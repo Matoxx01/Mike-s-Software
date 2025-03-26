@@ -15,6 +15,7 @@
     "electron": "^35.0.3"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "firebase": "^11.5.0",
     "signature_pad": "^5.0.7"
   }

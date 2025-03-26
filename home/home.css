@@ -288,6 +288,7 @@ textarea {
     right: 10px;
     z-index: 1000;
     width: auto;
+    margin-top: 55px;
 }
 
 .alert {

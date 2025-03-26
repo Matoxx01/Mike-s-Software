@@ -1,0 +1,258 @@
+/* General */
+body {
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #B6DCFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+/* ----------------- */
+/* Estilos de la Toolbar */
+/* ----------------- */
+.toolbar {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    background-color: #6596FF;
+    padding: 10px;
+    border-radius: 0px 0px 8px 8px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.toolbar-left {
+    margin-right: auto;
+}
+
+.toolbar-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.toolbar-right {
+    margin-left: auto;
+    position: relative;
+}
+
+.toolbar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+    padding: 0;
+}
+
+.toolbar-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    width: 600px;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.search-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 160px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.uldropdown {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.lidropdown {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.lidropdown:hover {
+    background-color: #f0f0f0;
+}
+
+.adropdown {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.delete-btn {
+    padding: 10px;
+    border: none;
+    background-color: #FF6F61;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.delete-btn:hover {
+    background-color: #ffffff;
+    color: #FF6F61;
+}
+
+/* Estilos para la tabla de usuarios */
+#usersTable {
+    width: 90%;
+    max-width: 900px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#usersTable th, #usersTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#usersTable th {
+    background-color: #6596FF;
+    color: white;
+}
+
+.table-search-container {
+    width: 90%;
+    max-width: 900px;
+    margin-bottom: 10px;
+}
+
+#tableSearchInput {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Flash Messages */
+
+.flash-messages {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    width: auto;
+    margin-top: 55px;
+}
+
+.alert {
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 14px;
+    animation: fade-in-out 5s forwards;
+}
+
+.alert.success {
+    background-color: #4CAF50;
+}
+
+.alert.danger {
+    background-color: #F44336;
+}
+
+/* Animación para desaparecer el mensaje */
+@keyframes fade-in-out {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Estilos para el modal de confirmación */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Fondo semi-transparente */
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .modal-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #cancelBtn {
+    background-color: #ccc;
+  }
+  
+  #confirmBtn {
+    background-color: #f44336;
+    color: #fff;
+  }
+  

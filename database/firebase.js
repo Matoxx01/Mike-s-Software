@@ -1,5 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getDatabase, ref, set, get, query, orderByChild, startAt, endAt } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+import { 
+  getDatabase, 
+  ref, 
+  set, 
+  get, 
+  query, 
+  orderByChild, 
+  startAt, 
+  endAt,
+  remove
+ } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDf42kc0ow6yTt4Twq1HE2BbhTaigbqZEI",
@@ -83,6 +93,53 @@ export async function searchEmployee(clave) {
     }
   } catch (error) {
     console.error("Error al buscar empleado:", error);
+    throw error;
+  }
+}
+
+/**
+ * Función para buscar todos los usuarios registrados en Firebase.
+ * Retorna una promesa que se resuelve con un arreglo de usuarios.
+ * Cada usuario tendrá sus atributos y se agregará el campo 'id' con su clave.
+ * @returns {Promise<Object[]>} - Lista de usuarios
+ */
+export async function usersearch() {
+  const usersRef = ref(db, "usuarios");
+
+  try {
+    const snapshot = await get(usersRef);
+    if (!snapshot.exists()) {
+      return [];
+    }
+
+    const users = [];
+    snapshot.forEach((childSnapshot) => {
+      let user = childSnapshot.val();
+      // Se asigna el id como la clave de cada usuario (en este caso el rut)
+      user.id = childSnapshot.key;
+      users.push(user);
+    });
+
+    return users;
+  } catch (error) {
+    console.error("Error al obtener usuarios de Firebase:", error);
+    throw error;
+  }
+}
+
+/**
+ * Función para eliminar un usuario a partir de su identificador (RUT).
+ * Retorna una promesa que se resuelve al completar la eliminación.
+ * @param {string} id - El RUT (clave) del usuario a eliminar.
+ * @returns {Promise<void>}
+ */
+export async function deleteUser(id) {
+  const userRef = ref(db, `usuarios/${id}`);
+  try {
+    await remove(userRef);
+    console.log(`Usuario con id ${id} eliminado correctamente.`);
+  } catch (error) {
+    console.error("Error al eliminar usuario en Firebase:", error);
     throw error;
   }
 }

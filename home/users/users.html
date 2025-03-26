@@ -1,11 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios</title>
-</head>
-<body>
-    
-</body>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Usuarios</title>
+        <link rel="stylesheet" href="./users.css" />
+        <script src="./users.js" type="module"></script>
+    </head>
+
+    <body>
+
+        <header class="toolbar">
+            <!-- Botones de navegación (izquierda) -->
+            <div class="toolbar-left">
+                <button class="toolbar-btn">
+                    <img src="../../assets/icons/back.svg" alt="Atrás" />
+                </button>
+                <button class="toolbar-btn">
+                    <img src="../../assets/icons/forward.svg" alt="Adelante" />
+                </button>
+                <button class="toolbar-btn">
+                    <img src="../../assets/icons/reload.svg" alt="Recargar" />
+                </button>
+            </div>
+        
+            <!-- Barra de búsqueda (centro) -->
+            <div class="toolbar-center">
+                <div class="search-container">
+                    <img src="../../assets/icons/lupa.svg" alt="Buscar" />
+                    <input type="text" placeholder="Rut..." />
+                    <button class="search-btn"></button>
+                </div>
+            </div>
+        
+            <!-- opciones (derecha) -->
+            <div class="toolbar-right">
+                <button class="toolbar-btn" id="moreOptionsBtn">
+                    <img src="../../assets/icons/more.svg" alt="Más opciones" />
+                </button>
+                <!-- Menú desplegable oculto por defecto -->
+                <div class="dropdown-menu" id="moreOptionsMenu">
+                    <ul class="uldropdown">
+                        <li id="goHome" class="lidropdown">
+                            <a href="./../home.html" class="adropdown">Home</a>
+                        </li>
+                        <li id="viewUsers" class="lidropdown">
+                            <a href="./users.html" class="adropdown">Ver Usuarios</a>
+                        </li>
+                        <li id="manageEmployees" class="lidropdown">
+                            <a href="./../manage/manage.html" class="adropdown">Gestión de empleados</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenedor para mensajes flash -->
+        <div id="flash-messages" class="flash-messages"></div> 
+
+        <!-- Buscador para filtrar la tabla de usuarios -->
+        <div class="table-search-container">
+            <input type="text" id="tableSearchInput" placeholder="Buscar por RUT, nombre o apellido...">
+        </div>
+
+        <!-- Tabla de usuarios -->
+        <table id="usersTable">
+            <thead>
+                <tr>
+                    <th>Rut</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Celular</th>
+                    <th>Mail</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los usuarios se cargarán dinámicamente -->
+            </tbody>
+        </table>
+        <!-- Modal de confirmación personalizado -->
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+            <h2 id="modalTitle">Confirmar eliminación</h2>
+            <p id="modalMessage">¿Estás seguro de eliminar el usuario?</p>
+            <div class="modal-actions">
+                <button id="cancelBtn">Cancelar</button>
+                <button id="confirmBtn">Eliminar</button>
+            </div>
+            </div>
+        </div>  
+    </body>
 </html>

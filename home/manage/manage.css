@@ -1,0 +1,139 @@
+/* General */
+body {
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #B6DCFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+/* ----------------- */
+/* Estilos de la Toolbar */
+/* ----------------- */
+.toolbar {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    background-color: #6596FF;
+    padding: 10px;
+    border-radius: 0px 0px 8px 8px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/* Secciones de la toolbar */
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
+    display: flex;
+    align-items: center;
+}
+
+/* Para que la parte izquierda quede pegada a la izquierda */
+.toolbar-left {
+    margin-right: auto;
+}
+
+/* Para centrar la barra de búsqueda */
+.toolbar-center {
+    flex: 1;
+    justify-content: center;
+}
+
+/* Para que la parte derecha quede pegada a la derecha */
+.toolbar-right {
+    margin-left: auto;
+    position: relative;
+}
+
+/* Botones de la toolbar */
+.toolbar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+    padding: 0;
+}
+
+.toolbar-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Contenedor de búsqueda */
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    width: 600px;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.search-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Dropdown menu moderno */
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 160px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Lista sin viñetas */
+.uldropdown {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cada opción del menú */
+.lidropdown {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.lidropdown:hover {
+    background-color: #f0f0f0;
+}
+
+/* Estilos para los enlaces */
+.adropdown {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}

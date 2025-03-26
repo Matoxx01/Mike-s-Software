@@ -20,12 +20,14 @@ document.getElementById('btnIngresar').addEventListener('click', async () => {
   try {
     const empleado = await searchEmployee(clave);  // Llamar a la función desde firebase.js
     if (empleado) {
-      // Guarda localmente los datos (name, photo y clave)
+
+      // Guarda localmente los datos (name, admin y clave)
       localStorage.setItem('empleado', JSON.stringify({
         name: empleado.name,
         admin: !!empleado.admin,
         clave: clave
       }));
+
       // Redirige a la página de inicio
       window.location.href = 'home/home.html';
     } else {

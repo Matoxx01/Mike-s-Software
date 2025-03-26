@@ -1,11 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de Usuarios</title>
-</head>
-<body>
+<html lang="es">
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestion de Empleados</title>
+        <link rel="stylesheet" href="./manage.css" />
+        <script src="./manage.js" type="module"></script>
+
+    </head>
+
+    <header class="toolbar">
+        <!-- Botones de navegación (izquierda) -->
+        <div class="toolbar-left">
+            <button class="toolbar-btn">
+                <img src="../../assets/icons/back.svg" alt="Atrás" />
+            </button>
+            <button class="toolbar-btn">
+                <img src="../../assets/icons/forward.svg" alt="Adelante" />
+            </button>
+            <button class="toolbar-btn">
+                <img src="../../assets/icons/reload.svg" alt="Recargar" />
+            </button>
+        </div>
     
-</body>
+        <!-- Barra de búsqueda (centro) -->
+        <div class="toolbar-center">
+            <div class="search-container">
+                <img src="../../assets/icons/lupa.svg" alt="Buscar" />
+                <input type="text" placeholder="Rut..." />
+                <button class="search-btn"></button>
+            </div>
+        </div>
+    
+        <!-- opciones (derecha) -->
+        <div class="toolbar-right">
+            <button class="toolbar-btn" id="moreOptionsBtn">
+                <img src="../../assets/icons/more.svg" alt="Más opciones" />
+            </button>
+            <!-- Menú desplegable oculto por defecto -->
+            <div class="dropdown-menu" id="moreOptionsMenu">
+                <ul class="uldropdown">
+                    <li id="goHome" class="lidropdown">
+                        <a href="./../home.html" class="adropdown">Home</a>
+                    </li>
+                    <li id="viewUsers" class="lidropdown">
+                        <a href="./../users/users.html" class="adropdown">Ver Usuarios</a>
+                    </li>
+                    <li id="manageEmployees" class="lidropdown">
+                        <a href="./../manage/manage.html" class="adropdown">Gestión de empleados</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>    
+
+    <body>
+        
+    </body>
+
 </html>
