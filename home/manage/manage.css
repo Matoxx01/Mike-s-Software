@@ -137,3 +137,190 @@ body {
     color: #333;
     display: block;
 }
+
+.user-search {
+    margin: 20px 0;
+    width: 90%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input {
+    width: 700px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.search-btn2 {
+    padding: 10px;
+    font-size: 16px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #0000005e;
+    border-radius: 50%;
+    background-color: #5acc43;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.search-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+
+.removeAdmin {
+    padding: 10px;
+    border: none;
+    background-color: #FF6F61;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-left: 5px;
+}
+
+.removeAdmin:hover {
+    background-color: #ffffff;
+    color: #FF6F61;
+}
+
+.makeAdmin {
+    padding: 10px;
+    border: none;
+    background-color: #61ff7b;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-left: 5px;
+}
+
+.makeAdmin:hover {
+    background-color: #ffffff;
+    color: #61ff7b;
+}
+
+.deleteButton {
+    padding: 10px;
+    border: none;
+    background-color: #FF6F61;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.deleteButton:hover {
+    background-color: #ffffff;
+    color: #FF6F61;
+}
+
+/* ------------------------- */
+/* Estilos para la tabla de empleados */
+/* ------------------------- */
+#employeeTable {
+    width: 90%;
+    max-width: 900px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#employeeTable th,
+#employeeTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#employeeTable th {
+    background-color: #6596FF;
+    color: white;
+}
+
+/* Flash Messages */
+
+.flash-messages {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    width: auto;
+    margin-top: 55px;
+}
+
+.alert {
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 14px;
+    animation: fade-in-out 5s forwards;
+}
+
+.alert.success {
+    background-color: #4CAF50;
+}
+
+.alert.danger {
+    background-color: #F44336;
+}
+
+/* Animación para desaparecer el mensaje */
+@keyframes fade-in-out {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Estilos para el modal de confirmación */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Fondo semi-transparente */
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    height: 190px;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .modal-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #cancelBtn {
+    background-color: #ccc;
+  }
+  
+  #confirmBtn {
+    background-color: #f44336;
+    color: #fff;
+  }
+  

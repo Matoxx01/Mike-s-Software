@@ -1,89 +1,182 @@
-import { uploadUser, searchUserByRut } from '../../database/firebase.js';
+import { 
+  employeeSearch, 
+  deleteEmployee, 
+  makeOrNotAdmin, 
+  uploadUser, 
+  searchUserByRut 
+} from '../../database/firebase.js';
 
-// Inicialización cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Obtén el nombre del localStorage
+  // Obtiene el empleado almacenado en localStorage
   const empleado = JSON.parse(localStorage.getItem('empleado'));
 
   // --- Eventos de la Toolbar ---
-
-  // Botones de navegación (la estructura asume que el primer, segundo y tercer botón en .toolbar-left son: atras, adelante y recargar)
   const backBtn = document.querySelector('.toolbar-left button:nth-child(1)');
   const forwardBtn = document.querySelector('.toolbar-left button:nth-child(2)');
   const refreshBtn = document.querySelector('.toolbar-left button:nth-child(3)');
   const moreOptionsBtn = document.querySelector('.toolbar-right button');
   const moreOptionsMenu = document.getElementById('moreOptionsMenu');
 
-  backBtn.addEventListener('click', () => {
-    window.history.back();
-  });
+  if (backBtn) backBtn.addEventListener('click', () => window.history.back());
+  if (forwardBtn) forwardBtn.addEventListener('click', () => window.history.forward());
+  if (refreshBtn) refreshBtn.addEventListener('click', () => window.location.reload());
 
-  forwardBtn.addEventListener('click', () => {
-    window.history.forward();
-  });
-
-  refreshBtn.addEventListener('click', () => {
-    window.location.reload();
-  });
-
-  // Si el usuario no es admin, ocultamos la opción de "Gestion de empleados"
-  if (!empleado || !empleado.admin) {
+  // Oculta "Gestión de empleados" si el usuario no es admin
+  if (!empleado?.admin) {
     const manageEmployeesItem = document.getElementById('manageEmployees');
-    manageEmployeesItem.style.display = "none";
+    if (manageEmployeesItem) manageEmployeesItem.style.display = "none";
   }
 
-  // Al hacer click en el botón se alterna la visibilidad del menú
-  moreOptionsBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Evita que el clic se propague y cierre el menú de inmediato
-    moreOptionsMenu.classList.toggle('show');
-  });
+  // Alterna el menú de opciones
+  if (moreOptionsBtn) {
+    moreOptionsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      moreOptionsMenu?.classList.toggle('show');
+    });
+  }
 
-  // Cerrar el menú al hacer clic en cualquier parte fuera del menú
+  // Cierra el menú si se hace clic fuera
   document.addEventListener('click', (e) => {
-    if (moreOptionsMenu.classList.contains('show')) {
+    if (moreOptionsMenu?.classList.contains('show')) {
       moreOptionsMenu.classList.remove('show');
     }
   });
 
-  // --- Búsqueda de usuario por RUT en la barra de búsqueda ---
-  const searchInput = document.querySelector('.toolbar-center input');
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const rut = searchInput.value.trim();
-      if (!rut) {
-        showFlashMessage('Ingrese un RUT para buscar', 'danger');
-        return;
+  // --- Búsqueda de usuario por RUT ---
+  const searchInputRut = document.querySelector('.toolbar-center input');
+  if (searchInputRut) {
+    searchInputRut.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const rut = searchInputRut.value.trim();
+        if (!rut) return showFlashMessage('Ingrese un RUT para buscar', 'danger');
+
+        searchUserByRut(rut)
+          .then(results => showFlashMessage(`Se encontraron ${results.length} usuario(s)`, 'success'))
+          .catch(error => showFlashMessage('Error al buscar usuarios: ' + error.message, 'danger'));
       }
-      // Llama a la función para buscar usuarios por RUT
-      searchUserByRut(rut)
-        .then(results => {
-          // Aquí puedes desplegar los resultados en tu interfaz. Por ahora mostramos un mensaje.
-          showFlashMessage(`Se encontraron ${results.length} usuario(s)`, 'success');
-          // Puedes implementar una lista o modal para mostrar los detalles.
+    });
+  }
+
+  // --- Configuración del modal de confirmación ---
+  const confirmModal = document.getElementById('confirmModal');
+  const confirmBtn = document.getElementById('confirmBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMessage = document.getElementById('modalMessage');
+
+  let employeeToDelete = null; // Variable para almacenar el empleado que se eliminará
+
+  function openConfirmModal(title, message, id) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    employeeToDelete = id;
+    confirmModal.style.display = "flex"; // Asegurar que el modal se muestre
+  }
+
+  function closeConfirmModal() {
+    confirmModal.style.display = "none"; // Ocultar modal
+    employeeToDelete = null; // Limpiar variable
+  }
+
+  cancelBtn.addEventListener('click', closeConfirmModal);
+
+  confirmBtn.addEventListener('click', () => {
+    if (employeeToDelete) {
+      deleteEmployee(employeeToDelete)
+        .then(() => {
+          showFlashMessage("Empleado eliminado correctamente.", "success");
+          loadEmployees();
         })
         .catch(error => {
-          showFlashMessage('Error al buscar usuarios: ' + error.message, 'danger');
+          showFlashMessage("Error al eliminar: " + error.message, "danger");
+        })
+        .finally(() => {
+          closeConfirmModal();
         });
     }
   });
 
-// Función para mostrar mensajes flash en la interfaz
-function showFlashMessage(message, category) { 
-  const flashContainer = document.getElementById('flash-messages');
-  if (!flashContainer) {
-      console.error('No se encontró el contenedor de mensajes flash.');
-      return;
+  // --- Carga y visualización de empleados ---
+  const employeeTableBody = document.querySelector('#employeeTable tbody');
+
+  function loadEmployees() {
+    if (!employeeTableBody) return;
+    employeeSearch()
+      .then(employees => {
+        employeeTableBody.innerHTML = ''; // Limpia la tabla antes de actualizar
+        employees.forEach(emp => {
+          const tr = document.createElement('tr');
+
+          // Columna: Nombre
+          const tdName = document.createElement('td');
+          tdName.textContent = emp.name;
+          tr.appendChild(tdName);
+
+          // Columna: Admin
+          const tdAdmin = document.createElement('td');
+          tdAdmin.textContent = emp.admin ? 'Sí' : 'No';
+          tr.appendChild(tdAdmin);
+
+          // Columna: Acciones
+          const tdActions = document.createElement('td');
+
+          // Botón: Eliminar (Ahora abre el modal)
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = 'Eliminar';
+          deleteBtn.classList.add('deleteButton');
+          deleteBtn.addEventListener('click', () => openConfirmModal("Confirmar eliminación", `¿Estás seguro de eliminar a ${emp.name}?`, emp.id));
+          tdActions.appendChild(deleteBtn);
+
+          // Botón: Cambiar admin
+          const toggleAdminBtn = document.createElement('button');
+          toggleAdminBtn.textContent = emp.admin ? 'Quitar Admin' : 'Hacer Admin';
+          toggleAdminBtn.classList.add(emp.admin ? 'removeAdmin' : 'makeAdmin');
+          toggleAdminBtn.addEventListener('click', () => handleToggleAdmin(emp.id, emp.admin, emp.name));
+          tdActions.appendChild(toggleAdminBtn);
+
+          tr.appendChild(tdActions);
+          employeeTableBody.appendChild(tr);
+        });
+      })
+      .catch(error => showFlashMessage('Error al obtener empleados: ' + error.message, 'danger'));
+  }
+  loadEmployees();
+
+  // --- Buscador de empleados por {name} ---
+  const nameSearchInput = document.getElementById('nameSearchInput');
+  if (nameSearchInput) {
+    nameSearchInput.addEventListener('input', () => {
+      const filter = nameSearchInput.value.toLowerCase();
+      const rows = employeeTableBody?.getElementsByTagName('tr') || [];
+      Array.from(rows).forEach(row => {
+        const nameCell = row.getElementsByTagName('td')[0];
+        if (nameCell) {
+          row.style.display = nameCell.textContent.toLowerCase().includes(filter) ? '' : 'none';
+        }
+      });
+    });
   }
 
-  const flashMessage = document.createElement('div');
-  flashMessage.className = `alert ${category}`;
-  flashMessage.textContent = message;
+  function handleToggleAdmin(id, isAdmin, name) {
+    makeOrNotAdmin(id, !isAdmin)
+      .then(() => {
+        showFlashMessage(`Estado admin de ${name} actualizado.`, 'success');
+        loadEmployees();
+      })
+      .catch(error => showFlashMessage('Error al actualizar estado: ' + error.message, 'danger'));
+  }
 
-  flashContainer.appendChild(flashMessage);
-
-  setTimeout(() => {
-      flashMessage.remove();
-  }, 5000);
-}});
+  function showFlashMessage(message, category) {
+    const flashContainer = document.getElementById('flash-messages');
+    if (!flashContainer) return console.error('No se encontró el contenedor de mensajes flash.');
+    
+    const flashMessage = document.createElement('div');
+    flashMessage.className = `alert ${category}`;
+    flashMessage.textContent = message;
+    flashContainer.appendChild(flashMessage);
+    
+    setTimeout(() => flashMessage.remove(), 5000);
+  }
+});
