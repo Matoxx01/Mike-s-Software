@@ -55,13 +55,34 @@
             </div>
         </header>
 
-        <!-- Sección de búsqueda de empleados -->
-        <section class="user-search">
+        <!-- Sección de búsqueda y adicion de empleados -->
+        <section class="employeeSAndA">
             <input type="text" id="nameSearchInput" class="search-input" placeholder="Buscar por nombre...">
-            <button id="searchBtn" class="search-btn2">
+            <button id="addBtn" class="addBtn">
                 <img src="./../../assets/icons/plus.svg" alt="Agregar">
             </button>
         </section>
+
+        <!-- Modal de agregar empleado -->
+        <div id="addEmployeeModal" class="modal">
+            <div class="modal-content2">
+            <h2 id="modalAddTitle">Añadir Empleado</h2>
+            <form id="addEmployeeForm">
+                <h4>Clave:</h4>
+                <input class="addInput" type="text" id="claveInput" placeholder="Clave" required>
+                <h4>Nombre Empleado:</h4>
+                <input class="addInput" type="text" id="nameInput" placeholder="Nombre" required>
+                <div>
+                <label for="adminInput">Admin</label>
+                <input class="checkAdmin" type="checkbox" id="adminInput">
+                </div>
+                <div class="modal-actions">
+                <button type="button" id="cancelAddBtn">Cancelar</button>
+                <button type="submit" id="submitAddBtn">Añadir</button>
+                </div>
+            </form>
+            </div>
+        </div>  
 
         <!-- Sección de la tabla de empleados -->
         <section class="employee-table-section" style="width: 90%; max-width: 900px; overflow-x: auto;">

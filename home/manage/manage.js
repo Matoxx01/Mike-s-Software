@@ -2,7 +2,7 @@ import {
   employeeSearch, 
   deleteEmployee, 
   makeOrNotAdmin, 
-  uploadUser, 
+  uploadEmployee, 
   searchUserByRut 
 } from '../../database/firebase.js';
 
@@ -21,6 +21,51 @@ document.addEventListener("DOMContentLoaded", () => {
   if (backBtn) backBtn.addEventListener('click', () => window.history.back());
   if (forwardBtn) forwardBtn.addEventListener('click', () => window.history.forward());
   if (refreshBtn) refreshBtn.addEventListener('click', () => window.location.reload());
+
+  
+  const addEmployeeModal = document.getElementById('addEmployeeModal');
+  const addEmployeeForm = document.getElementById('addEmployeeForm');
+  const cancelAddBtn = document.getElementById('cancelAddBtn');
+
+  addBtn.addEventListener('click', () => {
+    // Abre el modal de agregar empleado
+    addEmployeeModal.style.display = "flex";
+  });
+  
+  // Cierra el modal si se presiona "Cancelar"
+  cancelAddBtn.addEventListener('click', () => {
+    addEmployeeModal.style.display = "none";
+    addEmployeeForm.reset();
+  });
+  
+  // Manejo del envío del formulario para agregar empleado
+  addEmployeeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const clave = document.getElementById('claveInput').value.trim();
+    const name = document.getElementById('nameInput').value.trim();
+    const admin = document.getElementById('adminInput').checked;
+  
+    if (!clave || !name) {
+      showFlashMessage("Complete los campos requeridos", "danger");
+      return;
+    }
+  
+    // Genera un ID único, por ejemplo, "emp-123456"
+    // Puedes ajustar la lógica según tus necesidades
+    const uniqueId = `emp-${clave}`;
+  
+    // Llamada a la función uploadEmployee desde firebase.js
+    uploadEmployee(uniqueId, name, admin)
+      .then(() => {
+        showFlashMessage("Empleado añadido correctamente", "success");
+        loadEmployees(); // Recarga la tabla de empleados
+        addEmployeeModal.style.display = "none";
+        addEmployeeForm.reset();
+      })
+      .catch(error => {
+        showFlashMessage("Error al añadir empleado: " + error.message, "danger");
+      });
+  });
 
   // Oculta "Gestión de empleados" si el usuario no es admin
   if (!empleado?.admin) {

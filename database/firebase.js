@@ -212,14 +212,25 @@ export async function makeOrNotAdmin(clave, newAdminStatus) {
   }
 }
 
-// Función para agregar un empleado
-export function addEmployee({ clave, name, admin }) {
-  const db = getDatabase();
-  const employeeRef = ref(db, `empleados/${clave}`);
+/**
+ * Función para agregar un empleado a Firebase.
+ * @param {string} id - Identificador único del empleado (ej: "emp-123456").
+ * @param {string} name - Nombre del empleado.
+ * @param {boolean} admin - Indica si el empleado es administrador.
+ * @returns {Promise<void>}
+ */
+export async function uploadEmployee(id, name, admin) {
+  if (!id || !name) {
+    throw new Error("El id y el nombre son obligatorios para registrar un empleado.");
+  }
 
-  return set(employeeRef, {
-    clave,
-    name,
-    admin
-  });
+  const employeeRef = ref(db, `empleados/${id}`);
+  
+  try {
+    await set(employeeRef, { name, admin });
+    console.log("Empleado registrado con éxito en Firebase.");
+  } catch (error) {
+    console.error("Error al registrar empleado en Firebase:", error);
+    throw error;
+  }
 }

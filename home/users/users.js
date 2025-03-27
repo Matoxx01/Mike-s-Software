@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${user.nombre}</td>
                 <td>${user.celular}</td>
                 <td>${user.mail}</td>
+                <td>${user.employeeAuthor}</td>
                 <td><button class="delete-btn" data-id="${user.id}">Eliminar</button></td>
             `;
             tbody.appendChild(tr);

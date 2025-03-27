@@ -117,8 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
       mail,
       celular,
       firma,
-      timestamp: new Date().toISOString()
-    };
+      timestamp: new Date().toISOString(),
+      employeeAuthor: empleado ? empleado.name : "No Registrado"
+  };
 
     // Llama a la función para subir el usuario a Firebase
     uploadUser(userData)
