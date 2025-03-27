@@ -50,12 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
   
-    // Genera un ID único, por ejemplo, "emp-123456"
-    // Puedes ajustar la lógica según tus necesidades
-    const uniqueId = `emp-${clave}`;
-  
     // Llamada a la función uploadEmployee desde firebase.js
-    uploadEmployee(uniqueId, name, admin)
+    uploadEmployee(clave, name, admin)
       .then(() => {
         showFlashMessage("Empleado añadido correctamente", "success");
         loadEmployees(); // Recarga la tabla de empleados

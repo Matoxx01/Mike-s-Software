@@ -77,20 +77,24 @@ export async function searchUserByRut(rut) {
 }
 
 /**
- * Función para buscar un empleado en Firebase
- * usando la clave ingresada en la ruta `empleados/{clave}`.
+ * Función para buscar un empleado en Firebase usando su clave.
  * @param {string} clave - La clave del empleado a buscar.
  * @returns {Promise<Object|null>} - Objeto con los datos del empleado o null si no existe.
  */
 export async function searchEmployee(clave) {
-  const employeeRef = ref(db, `empleados/${clave}`);
+  const empleadosRef = ref(db, "empleados"); // Referencia a todos los empleados
   try {
-    const snapshot = await get(employeeRef);
+    const snapshot = await get(empleadosRef);
     if (snapshot.exists()) {
-      return snapshot.val();
-    } else {
-      return null;
+      const empleados = snapshot.val();
+      // Buscar dentro de los empleados cuál tiene la clave buscada
+      for (const uid in empleados) {
+        if (empleados[uid].clave == clave) { // Comparación con la clave
+          return { id: uid, ...empleados[uid] }; // Retornar datos del empleado con su ID
+        }
+      }
     }
+    return null; // No se encontró el empleado
   } catch (error) {
     console.error("Error al buscar empleado:", error);
     throw error;
@@ -214,23 +218,47 @@ export async function makeOrNotAdmin(clave, newAdminStatus) {
 
 /**
  * Función para agregar un empleado a Firebase.
- * @param {string} id - Identificador único del empleado (ej: "emp-123456").
+ * Genera un id único del tipo "emp-XXXXXX" (6 dígitos aleatorios) que no se repita.
+ * Se almacena el objeto con los campos { clave, name, admin }.
+ * @param {string} clave - Clave proporcionada por el usuario.
  * @param {string} name - Nombre del empleado.
  * @param {boolean} admin - Indica si el empleado es administrador.
  * @returns {Promise<void>}
  */
-export async function uploadEmployee(id, name, admin) {
-  if (!id || !name) {
-    throw new Error("El id y el nombre son obligatorios para registrar un empleado.");
+export async function uploadEmployee(clave, name, admin) {
+  if (!clave || !name) {
+    throw new Error("La clave y el nombre son obligatorios para registrar un empleado.");
   }
-
-  const employeeRef = ref(db, `empleados/${id}`);
+  
+  // Función para generar 6 dígitos aleatorios (entre 100000 y 999999)
+  function generateRandomDigits() {
+    return Math.floor(100000 + Math.random() * 900000);
+  }
+  
+  let uniqueId;
+  let exists = true;
+  // Intenta generar un ID único comprobándolo en Firebase.
+  while (exists) {
+    const randomDigits = generateRandomDigits();
+    uniqueId = `emp-${randomDigits}`;
+    try {
+      const employee = await searchEmployee(uniqueId);
+      exists = !!employee;  // Si ya existe, sigue iterando.
+    } catch (error) {
+      // En caso de error en la verificación, asumimos que no existe y salimos del loop.
+      exists = false;
+    }
+  }
+  
+  const employeeRef = ref(db, `empleados/${uniqueId}`);
+  const employeeData = { clave, name, admin };
   
   try {
-    await set(employeeRef, { name, admin });
-    console.log("Empleado registrado con éxito en Firebase.");
+    await set(employeeRef, employeeData);
+    console.log("Empleado registrado con éxito en Firebase con id:", uniqueId);
   } catch (error) {
     console.error("Error al registrar empleado en Firebase:", error);
     throw error;
   }
 }
+
