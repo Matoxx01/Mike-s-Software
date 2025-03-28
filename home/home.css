@@ -244,6 +244,31 @@ textarea {
     background-color: white;
 }
 
+.btnsFirma {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.full {
+    margin-left: 10px;
+    margin-top: 13px;
+    border: none;
+    border-radius: 4px;
+    height: 45px;
+    cursor: pointer;
+    background-color: #000;
+    width: 45px;
+}
+
+.full img {
+    margin-top: 2px;
+}
+
+.full:hover {
+    background-color: #0000007e;
+}
+
 /* Botón LISTO */
 .readyButton {
     width: 177px;
@@ -281,7 +306,6 @@ textarea {
 .clearButton:hover {
     background-color: #ffffff;
     box-shadow: 0 0 10px #FF6F61;
-    border: 2px solid #FF6F61;
     color: #FF6F61;
 }
 
@@ -289,7 +313,7 @@ textarea {
 
 .flash-messages {
     position: fixed;
-    bottom: 10px;
+    bottom: 10px;   
     left: 10px;
     z-index: 1000;
     width: auto;
