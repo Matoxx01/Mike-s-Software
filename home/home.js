@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mail,
       celular,
       firma,
-      timestamp: new Date().toISOString(),
+      timestamp: Date.now(),
       employeeAuthor: empleado ? empleado.name : "No Registrado"
   };
 

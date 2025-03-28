@@ -1,4 +1,4 @@
-import { uploadUser, searchUserByRut, usersearch, deleteUser } from '../../database/firebase.js';
+import { createExcel, searchUserByRut, usersearch, deleteUser } from '../../database/firebase.js';
 
 // Inicialización cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
@@ -41,6 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener('click', (e) => {
     if (moreOptionsMenu.classList.contains('show')) {
       moreOptionsMenu.classList.remove('show');
+    }
+  });
+
+  document.getElementById('excelCreate').addEventListener('click', async () => {
+    try {
+      await createExcel();
+      showFlashMessage('Excel creado exitosamente', 'success');
+    } catch (error) {
+      showFlashMessage('Error al crear Excel: ' + error.message, 'danger');
     }
   });
 

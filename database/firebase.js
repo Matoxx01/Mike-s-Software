@@ -262,3 +262,64 @@ export async function uploadEmployee(clave, name, admin) {
   }
 }
 
+export async function createExcel() {
+  try {
+    const db = getDatabase();
+    const timestampRef = ref(db, 'config/lastExcelTimestamp');
+    
+    // Obtener último timestamp
+    const timestampSnapshot = await get(timestampRef);
+    const lastTimestamp = timestampSnapshot.exists() ? timestampSnapshot.val() : 0;
+
+    // Obtener usuarios directamente de la referencia
+    const usersSnapshot = await get(ref(db, 'usuarios'));
+    const users = [];
+    
+    usersSnapshot.forEach(child => {
+      const user = child.val();
+      users.push({
+        rut: child.key, // La clave es el RUT
+        apellido: user.apellido || '',
+        nombre: user.nombre || '',
+        mail: user.mail || '',
+        celular: user.celular || '',
+        timestamp: user.timestamp ? new Date(user.timestamp).getTime() : 0
+      });
+    });
+
+    // Filtrar por timestamp
+    const filteredUsers = users.filter(user => user.timestamp > lastTimestamp);
+
+    // Crear datos estructurados
+    const excelData = [
+      ['RUT', 'Apellido', 'Nombre', 'Mail', 'Teléfono'],
+      ...filteredUsers.map(user => [
+        user.rut,
+        user.apellido,
+        user.nombre,
+        user.mail,
+        user.celular
+      ])
+    ];
+
+    // Generar hoja de cálculo
+    const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Usuarios");
+    
+    // Generar archivo
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { 
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+    });
+    
+    // Forzar diálogo de guardado
+    saveAs(blob, `usuarios_${new Date().toISOString().split('T')[0]}.xlsx`);
+    
+    // Actualizar timestamp
+    await set(timestampRef, Date.now());
+
+  } catch (error) {
+    throw new Error(`Error al generar Excel: ${error.message}`);
+  }
+}
