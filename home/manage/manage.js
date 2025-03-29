@@ -3,6 +3,7 @@ import {
   deleteEmployee, 
   makeOrNotAdmin, 
   uploadEmployee, 
+  updateEmployee,
   searchUserByRut 
 } from '../../database/firebase.js';
 
@@ -139,6 +140,46 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  let currentEmployeeToModify = null;
+
+  function openModifyModal(employee) {
+      currentEmployeeToModify = employee;
+      document.getElementById('modifyClaveInput').value = employee.clave;
+      document.getElementById('modifyNameInput').value = employee.name;
+      document.getElementById('modifyEmployeeModal').style.display = "flex";
+  }
+
+  function closeModifyModal() {
+      currentEmployeeToModify = null;
+      document.getElementById('modifyEmployeeModal').style.display = "none";
+      document.getElementById('modifyEmployeeForm').reset();
+  }
+
+  // Manejar el modal de modificación
+  document.getElementById('cancelModifyBtn').addEventListener('click', closeModifyModal);
+  document.getElementById('modifyEmployeeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newClave = document.getElementById('modifyClaveInput').value.trim();
+      const newName = document.getElementById('modifyNameInput').value.trim();
+
+      if (!newClave || !newName) {
+          showFlashMessage("Complete todos los campos", "danger");
+          return;
+      }
+
+      if (currentEmployeeToModify) {
+          updateEmployee(currentEmployeeToModify.id, newClave, newName)
+              .then(() => {
+                  showFlashMessage("Empleado actualizado correctamente", "success");
+                  loadEmployees();
+                  closeModifyModal();
+              })
+              .catch(error => {
+                  showFlashMessage("Error al actualizar: " + error.message, "danger");
+              });
+      }
+  });
+
   // --- Carga y visualización de empleados ---
   const employeeTableBody = document.querySelector('#employeeTable tbody');
 
@@ -176,6 +217,13 @@ document.addEventListener("DOMContentLoaded", () => {
           toggleAdminBtn.classList.add(emp.admin ? 'removeAdmin' : 'makeAdmin');
           toggleAdminBtn.addEventListener('click', () => handleToggleAdmin(emp.id, emp.admin, emp.name));
           tdActions.appendChild(toggleAdminBtn);
+
+          // Botón: Modificar
+          const modifyBtn = document.createElement('button');
+          modifyBtn.textContent = 'Modificar';
+          modifyBtn.classList.add('modify-btn');
+          modifyBtn.addEventListener('click', () => openModifyModal(emp));
+          tdActions.appendChild(modifyBtn);
 
           tr.appendChild(tdActions);
           employeeTableBody.appendChild(tr);

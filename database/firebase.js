@@ -338,3 +338,22 @@ export async function changeUser(userId, newData) {
     throw new Error('Error actualizando usuario: ' + error.message);
   }
 }
+
+export async function updateEmployee(employeeId, newClave, newName) {
+  const employeeRef = ref(db, `empleados/${employeeId}`);
+  try {
+      const snapshot = await get(employeeRef);
+      if (!snapshot.exists()) {
+          throw new Error("Empleado no encontrado");
+      }
+      
+      await set(employeeRef, {
+          ...snapshot.val(),
+          clave: newClave,
+          name: newName
+      });
+  } catch (error) {
+      console.error("Error al actualizar empleado:", error);
+      throw error;
+  }
+}

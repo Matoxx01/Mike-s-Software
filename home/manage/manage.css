@@ -312,6 +312,22 @@ body {
     border-radius: 4px;
   }
 
+  .modify-btn {
+    padding: 10px;
+    margin-left: 5px;
+    border: none;
+    background-color: #444bff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.modify-btn:hover {
+    background-color: #ffffff;
+    color: #444bff;
+}
+
   .checkAdmin {
     margin-top: 10px;
     cursor: pointer;
