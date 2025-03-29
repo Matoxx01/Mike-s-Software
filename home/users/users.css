@@ -21,6 +21,8 @@ body {
     border-radius: 0px 0px 8px 8px;
     box-sizing: border-box;
     margin-bottom: 20px;
+    position: relative;
+    z-index: 1001;
     animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
@@ -98,7 +100,7 @@ body {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
-    z-index: 1000;
+    z-index: 9999;
 }
 
 .dropdown-menu.show {
@@ -120,6 +122,8 @@ body {
 
 .lidropdown:hover {
     background-color: #f0f0f0;
+    border: none;
+    border-radius: 6px;
 }
 
 .adropdown {
