@@ -132,6 +132,7 @@ body {
     padding: 10px;
     border: none;
     background-color: #FF6F61;
+    margin-bottom: 5px;
     color: white;
     border-radius: 8px;
     cursor: pointer;
@@ -142,6 +143,82 @@ body {
     background-color: #ffffff;
     color: #FF6F61;
 }
+
+/* Estilos para nuevos modales */
+#actionModal .modal-content,
+#editModal .modal-content {
+  max-width: 350px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.form-group label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.confirm-btn {
+  background-color: #4CAF50 !important;
+  color: white !important;
+}
+
+.modify-btn {
+    padding: 10px;
+    border: none;
+    background-color: #444bff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.modify-btn:hover {
+    background-color: #ffffff;
+    color: #444bff;
+}
+
+.cancel-btn {
+    padding: 10px;
+    border: none;
+    background-color: #bbbbbb;
+    color: #000;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #ffffff;
+}
+
+.infoButton {
+    width: 45px;
+    height: 45px;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    background-color: #444bff;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.infoButton:hover {
+    background-color: #7b80ff;
+}
+
+.modifyInput {
+    margin-left: 12px;
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
 
 /* Estilos para la tabla de usuarios */
 #usersTable {

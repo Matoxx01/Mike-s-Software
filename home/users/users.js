@@ -1,7 +1,16 @@
-import { createExcel, searchUserByRut, usersearch, deleteUser } from '../../database/firebase.js';
+import { createExcel, searchUserByRut, usersearch, deleteUser, changeUser } from '../../database/firebase.js';
 
 // Inicialización cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
+  const confirmModal = document.getElementById('confirmModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMessage = document.getElementById('modalMessage');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const confirmBtn = document.getElementById('confirmBtn');
+  const actionCancelBtn = document.getElementById('actionCancelBtn');
+  const actionDeleteBtn = document.getElementById('actionDeleteBtn');
+  const actionModifyBtn = document.getElementById('actionModifyBtn');
+  const editBackBtn = document.getElementById('editBackBtn');
 
   // Obtén el nombre del localStorage
   const empleado = JSON.parse(localStorage.getItem('empleado'));
@@ -108,7 +117,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${user.celular}</td>
                 <td>${user.mail}</td>
                 <td>${user.employeeAuthor}</td>
-                <td><button class="delete-btn" data-id="${user.id}">Eliminar</button></td>
+                <td>
+                  <button class="infoButton" data-id="${user.id}">
+                    <img src="../../assets/icons/info.svg" alt="Acciones" />
+                  </button>
+                </td>
             `;
             tbody.appendChild(tr);
          });
@@ -118,12 +131,76 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Variables y funciones para el modal de confirmación
-  const confirmModal = document.getElementById('confirmModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalMessage = document.getElementById('modalMessage');
-  const cancelBtn = document.getElementById('cancelBtn');
-  const confirmBtn = document.getElementById('confirmBtn');
+  let currentUser = null;
+
+  // Evento para el botón de información
+  document.querySelector('#usersTable tbody').addEventListener('click', async (e) => {
+    const infoButton = e.target.closest('.infoButton');
+    if (infoButton) {
+      const userId = infoButton.dataset.id;
+      const row = infoButton.closest('tr');
+      currentUser = {
+        id: userId,
+        nombre: row.cells[2].textContent,
+        apellido: row.cells[1].textContent,
+        celular: row.cells[3].textContent,
+        mail: row.cells[4].textContent
+      };
+      
+      document.getElementById('actionModalTitle').textContent = `¿Qué quieres hacer con ${currentUser.nombre} ${currentUser.apellido}?`;
+      document.getElementById('actionModal').style.display = 'block';
+    }
+  });
+
+  // Eventos para el modal de acciones
+  document.getElementById('actionDeleteBtn').addEventListener('click', () => {
+    document.getElementById('actionModal').style.display = 'none';
+    openConfirmModal("Confirmar eliminación", `¿Estás seguro de eliminar a ${currentUser.nombre} ${currentUser.apellido}?`, currentUser.id);
+  });
+
+  document.getElementById('actionCancelBtn').addEventListener('click', () => {
+    document.getElementById('actionModal').style.display = 'none';
+    currentUser = null;
+  });
+
+  document.getElementById('actionModifyBtn').addEventListener('click', () => {
+    document.getElementById('actionModal').style.display = 'none';
+    document.getElementById('editNombre').value = currentUser.nombre;
+    document.getElementById('editApellido').value = currentUser.apellido;
+    document.getElementById('editCelular').value = currentUser.celular;
+    document.getElementById('editMail').value = currentUser.mail;
+    document.getElementById('editModal').style.display = 'block';
+  });
+
+  // Manejo del modal de confirmación de eliminación
+  cancelBtn.addEventListener('click', () => {
+    closeConfirmModal();
+    document.getElementById('actionModal').style.display = 'block';
+  });
+
+  document.getElementById('editBackBtn').addEventListener('click', () => {
+    document.getElementById('editModal').style.display = 'none';
+    document.getElementById('actionModal').style.display = 'block';
+  });
+
+  // Manejar el formulario de edición
+  document.getElementById('editForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    try {
+      await changeUser(currentUser.id, {
+        nombre: document.getElementById('editNombre').value,
+        apellido: document.getElementById('editApellido').value,
+        celular: document.getElementById('editCelular').value,
+        mail: document.getElementById('editMail').value
+      });
+      showFlashMessage('Usuario modificado exitosamente', 'success');
+      loadUsers();
+      document.getElementById('editModal').style.display = 'none';
+    } catch (error) {
+      showFlashMessage('Error al modificar usuario: ' + error.message, 'danger');
+    }
+  });
+
   let pendingDeleteId = null;
 
   // Función para abrir el modal con un título y mensaje personalizados

@@ -323,3 +323,18 @@ export async function createExcel() {
     throw new Error(`Error al generar Excel: ${error.message}`);
   }
 }
+
+export async function changeUser(userId, newData) {
+  const userRef = ref(db, `usuarios/${userId}`);
+  try {
+    const snapshot = await get(userRef);
+    if (!snapshot.exists()) throw new Error('Usuario no existe');
+    
+    await set(userRef, {
+      ...snapshot.val(),
+      ...newData
+    });
+  } catch (error) {
+    throw new Error('Error actualizando usuario: ' + error.message);
+  }
+}

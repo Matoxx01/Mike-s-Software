@@ -85,7 +85,20 @@
                 <!-- Los usuarios se cargarán dinámicamente -->
             </tbody>
         </table>
-        <!-- Modal de confirmación personalizado -->
+        
+        <!-- Modal de Acciones -->
+        <div id="actionModal" class="modal">
+            <div class="modal-content">
+            <h2 id="actionModalTitle"></h2>
+            <div class="modal-actions">
+                <button class="delete-btn" id="actionDeleteBtn" >Eliminar</button>
+                <button class="cancel-btn" id="actionCancelBtn">Cancelar</button>
+                <button class="modify-btn" id="actionModifyBtn">Modificar</button>
+            </div>
+            </div>
+        </div>
+
+        <!-- Modal de Eliminar -->
         <div id="confirmModal" class="modal">
             <div class="modal-content">
             <h2 id="modalTitle">Confirmar eliminación</h2>
@@ -95,6 +108,25 @@
                 <button id="confirmBtn">Eliminar</button>
             </div>
             </div>
-        </div>  
+        </div>
+
+        <!-- Modal de Modify -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+            <h2>Campos a modificar</h2>
+            <form id="editForm">
+                <div class="form-group">
+                <label>Nombre: <input class="modifyInput" type="text" id="editNombre" required></label>
+                <label>Apellido: <input class="modifyInput" type="text" id="editApellido" required></label>
+                <label>Celular: <input class="modifyInput" type="tel" id="editCelular" required></label>
+                <label>Mail: <input class="modifyInput" type="email" id="editMail" required></label>
+                </div>
+                <div class="modal-actions">
+                <button type="button" id="editBackBtn">Cancelar</button>
+                <button type="submit" class="confirm-btn">Cambiar</button>
+                </div>
+            </form>
+            </div>
+        </div>
     </body>
 </html>
