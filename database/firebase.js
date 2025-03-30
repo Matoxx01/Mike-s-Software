@@ -36,7 +36,23 @@ export async function uploadUser(userData) {
     throw new Error("El RUT es obligatorio para registrar un usuario.");
   }
 
+  // Función para formatear RUT en formato chileno (99.999.999-K)
+  function formatRut(rut) {
+    // Eliminar caracteres no numéricos y normalizar
+    const cleanRut = rut.replace(/[^0-9kK]/g, '');
+    const dv = cleanRut.slice(-1).toUpperCase();
+    const body = cleanRut.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${body}-${dv}`;
+  }
+
   const userRef = ref(db, `usuarios/${userData.rut}`);
+
+  // Verificar si el RUT ya existe
+  const snapshot = await get(userRef);
+  if (snapshot.exists()) {
+    const formattedRut = formatRut(userData.rut); // Formatear RUT
+    throw new Error(`Usuario con RUT ${formattedRut} ya registrado.`);
+  }
 
   try {
     await set(userRef, userData);

@@ -41,6 +41,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // --- Búsqueda de usuario por RUT en la barra de búsqueda de la toolbar ---
+  const searchInput = document.querySelector('.toolbar-center input');
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const rut = searchInput.value.trim();
+      if (!rut) {
+        showFlashMessage('Ingrese un RUT para buscar', 'danger');
+        return;
+      }
+      searchUserByRut(rut)
+        .then(results => {
+          showFlashMessage(`Se encontraron ${results.length} usuario(s)`, 'success');
+          // Aquí puedes implementar la visualización de resultados adicionales si lo deseas.
+        })
+        .catch(error => {
+          showFlashMessage('Error al buscar usuarios: ' + error.message, 'danger');
+        });
+    }
+  });
+
   // --- Validación de inputs en tiempo real ---
   const inputRut = document.getElementById('rut');
   const inputNombre = document.getElementById('nombre');
@@ -112,8 +133,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const firma = signaturePad.toDataURL('image/png');
+
+    const cleanedRut = rut.replace(/[\.\-]/g, '').toUpperCase();
+
+    if (!validateRut(cleanedRut)) {
+      showFlashMessage("RUT inválido.", 'danger');
+      return;
+    }
+
     const userData = {
-      rut,
+      rut: cleanedRut,
       nombre,
       apellido,
       mail,
@@ -128,10 +157,14 @@ document.addEventListener("DOMContentLoaded", () => {
         showFlashMessage('Usuario registrado con éxito.', 'success');
         form.reset();
         signaturePad.clear();
-        // También se pueden remover los íconos de validación si se desea.
       })
       .catch((error) => {
-        showFlashMessage('Error al registrar usuario: ' + error.message, 'danger');
+        // Mostrar mensaje específico si el error es por RUT duplicado
+        if (error.message.includes('ya registrado')) {
+          showFlashMessage(error.message, 'danger');
+        } else {
+          showFlashMessage('Error al registrar usuario: ' + error.message, 'danger');
+        }
         console.error(error);
       });
   });
