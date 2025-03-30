@@ -22,15 +22,17 @@
   },
   "build": {
     "appId": "com.mikes.software",
-    "productName": "mikes_software",
+    "productName": "Mikes Users Manage",
+    "directories": {
+      "output": "dist"
+    },
     "win": {
-      "icon": "/icon.ico"
+      "target": "nsis",
+      "icon": "build/icon.ico"
     },
-    "mac": {
-      "icon": "/icon.png"
-    },
-    "linux": {
-      "icon": "/icon.png"
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   }
 }

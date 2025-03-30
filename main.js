@@ -11,7 +11,7 @@ app.whenReady().then(() => {
     mainWindow = new BrowserWindow({
         width: 905,
         height: 680,
-        icon: path.join(__dirname, 'assets/icons/logo.png'),
+        icon: path.join(__dirname, 'build/icon.ico'),
         webPreferences: {
             nodeIntegration: true
         }
@@ -24,7 +24,7 @@ app.whenReady().then(() => {
             mainWindow = new BrowserWindow({
                 width: 905,
                 height: 680,
-                icon: path.join(__dirname, 'assets/icons/logo.png'),
+                icon: path.join(__dirname, 'build/icon.ico'),
                 webPreferences: {
                     nodeIntegration: true
                 }
