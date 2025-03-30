@@ -12,11 +12,25 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "electron": "^35.0.3"
+    "electron": "^35.0.3",
+    "electron-builder": "^26.0.12"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
     "firebase": "^11.5.0",
     "signature_pad": "^5.0.7"
+  },
+  "build": {
+    "appId": "com.mikes.software",
+    "productName": "mikes_software",
+    "win": {
+      "icon": "/icon.ico"
+    },
+    "mac": {
+      "icon": "/icon.png"
+    },
+    "linux": {
+      "icon": "/icon.png"
+    }
   }
 }

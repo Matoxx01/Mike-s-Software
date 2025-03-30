@@ -2,6 +2,8 @@ const { app, BrowserWindow, Menu } = require('electron');
 
 let mainWindow;
 
+const path = require('path');
+
 app.whenReady().then(() => {
     // Eliminar el menú por completo
     Menu.setApplicationMenu(null);
@@ -9,6 +11,7 @@ app.whenReady().then(() => {
     mainWindow = new BrowserWindow({
         width: 905,
         height: 680,
+        icon: path.join(__dirname, 'assets/icons/logo.png'),
         webPreferences: {
             nodeIntegration: true
         }
@@ -21,6 +24,7 @@ app.whenReady().then(() => {
             mainWindow = new BrowserWindow({
                 width: 905,
                 height: 680,
+                icon: path.join(__dirname, 'assets/icons/logo.png'),
                 webPreferences: {
                     nodeIntegration: true
                 }
