@@ -102,6 +102,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000);
   }
 
+  // Función para formatear el RUT
+  function formatRUT(rut) {
+    // Eliminar caracteres no deseados y separar cuerpo y dígito verificador
+    const cleanRUT = rut.replace(/[^0-9kK]/g, '');
+    const dv = cleanRUT.slice(-1).toUpperCase();
+    const body = cleanRUT.slice(0, -1);
+
+    // Formatear según longitud del cuerpo
+    if (body.length === 8) {
+      return `${body.slice(0, 2)}.${body.slice(2, 5)}.${body.slice(5, 8)}-${dv}`;
+    } else if (body.length === 7) {
+      return `${body.slice(0, 1)}.${body.slice(1, 4)}.${body.slice(4, 7)}-${dv}`;
+    } else {
+      return `${body}-${dv}`; // Formato alternativo si no coincide
+    }
+  }
+
   // Función para cargar los usuarios en la tabla
   function loadUsers() {
     usersearch()
@@ -111,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
          users.forEach(user => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${user.rut}</td>
+                <td>${formatRUT(user.rut)}</td>
                 <td>${user.apellido}</td>
                 <td>${user.nombre}</td>
                 <td>${user.celular}</td>
