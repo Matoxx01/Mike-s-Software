@@ -18,7 +18,6 @@ html, body {
 /* ----------------- */
 .toolbar {
     width: 100%;
-    max-width: 900px;
     display: flex;
     align-items: center;
     background-color: #6596FF;

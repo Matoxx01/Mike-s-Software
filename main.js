@@ -9,7 +9,7 @@ app.whenReady().then(() => {
     Menu.setApplicationMenu(null);
 
     mainWindow = new BrowserWindow({
-        width: 905,
+        width: 975,
         height: 680,
         icon: path.join(__dirname, 'build/icon.ico'),
         webPreferences: {
