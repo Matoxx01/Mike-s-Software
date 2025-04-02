@@ -30,7 +30,7 @@
         <div class="toolbar-center">
             <div class="search-container">
                 <img src="../assets/icons/lupa.svg" alt="Buscar" />
-                <input type="text" placeholder="Rut..." />
+                <input type="text" placeholder="RUT, Sin puntos ni guion" />
                 <button class="search-btn">
                 </button>
             </div>
@@ -99,15 +99,12 @@
         </div>
         <div class="leftContainer">
             <div class="firmaContainer">
-                <label for="firma">Firma:</label>
-                <canvas id="firmaCanvas" width="280" height="176"></canvas>
-                <div class="btnsFirma">
-                    <button type="button" id="clearCanvas" class="clearButton">LIMPIAR FIRMA</button>
-                    <button type="button" id="full" class="full"><img src="./../assets/icons/full.svg" /></button>
+                <button type="button" id="openFullscreenCanvas" class="readyButton">FIRMAR</button>
                 </div>
             </div>
 
             <button type="submit" class="readyButton">GUARDAR</button>
+
         </div>
     </form>
 

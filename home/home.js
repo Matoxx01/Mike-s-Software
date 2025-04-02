@@ -1,10 +1,8 @@
 import { uploadUser, searchUserByRut } from '../database/firebase.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Inicializa Signature Pad sobre el canvas
-  const canvas = document.getElementById('firmaCanvas');
-  const signaturePad = new SignaturePad(canvas);
-  const clearButton = document.getElementById("clearCanvas");
+  let fullscreenContainer = null;
+  let savedSignature = null;
 
   const empleado = JSON.parse(localStorage.getItem('empleado'));
   if (empleado && empleado.name) {
@@ -22,10 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
   forwardBtn.addEventListener('click', () => window.history.forward());
   refreshBtn.addEventListener('click', () => window.location.reload());
 
-  clearButton.addEventListener("click", () => {
-    signaturePad.clear();
-  });
-
   if (!empleado || !empleado.admin) {
     const manageEmployeesItem = document.getElementById('manageEmployees');
     manageEmployeesItem.style.display = "none";
@@ -35,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     moreOptionsMenu.classList.toggle('show');
   });
+
   document.addEventListener('click', () => {
     if (moreOptionsMenu.classList.contains('show')) {
       moreOptionsMenu.classList.remove('show');
@@ -60,6 +55,109 @@ document.addEventListener("DOMContentLoaded", () => {
           showFlashMessage('Error al buscar usuarios: ' + error.message, 'danger');
         });
     }
+  });
+
+  const openFullscreenBtn = document.getElementById('openFullscreenCanvas');
+    let fullscreenSignaturePad;
+
+    openFullscreenBtn.addEventListener('click', () => {
+      savedSignature = null;
+
+      // Crear contenedor fullscreen
+      fullscreenContainer = document.createElement('div');
+      fullscreenContainer.id = 'fullscreenContainer';
+      
+      // Crear canvas
+      const canvas = document.createElement('canvas');
+      canvas.id = 'fullscreenCanvas';
+      fullscreenContainer.appendChild(canvas);
+      
+      // Crear botones
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.className = 'fullscreen-buttons';
+      
+      const saveBtn = document.createElement('button');
+      saveBtn.id = 'saveSignature';
+      saveBtn.textContent = 'Guardar Firma';
+      
+      const clearBtn = document.createElement('button');
+      clearBtn.id = 'clearFullCanvas';
+      clearBtn.textContent = 'Limpiar Firma';
+      
+      const cancelBtn = document.createElement('button');
+      cancelBtn.id = 'cancelFullCanvas';
+      cancelBtn.textContent = 'Cancelar';
+      
+      buttonsDiv.append(saveBtn, clearBtn, cancelBtn);
+      fullscreenContainer.appendChild(buttonsDiv);
+      
+      document.body.appendChild(fullscreenContainer);
+        
+      // Entrar en pantalla completa
+      if (fullscreenContainer.requestFullscreen) {
+        fullscreenContainer.requestFullscreen().then(() => {
+            initFullscreenCanvas();
+        }).catch(err => {
+            console.error('Error al entrar en pantalla completa:', err);
+            fullscreenContainer.remove();
+        });
+      }
+  });
+
+  function initFullscreenCanvas() {
+      const canvas = document.getElementById('fullscreenCanvas');
+      
+      // Configurar Signature Pad
+      fullscreenSignaturePad = new SignaturePad(canvas, {
+          backgroundColor: 'rgba(255, 255, 255, 0)'
+      });
+      
+      // Ajustar tamaño
+      const resizeCanvas = () => {
+          canvas.width = fullscreenContainer.offsetWidth;
+          canvas.height = fullscreenContainer.offsetHeight - 60; // 60px para botones
+      };
+      resizeCanvas();
+      
+      // Event listeners
+      window.addEventListener('resize', resizeCanvas);
+      
+      // Botones
+      document.getElementById('saveSignature').addEventListener('click', () => {
+          if (fullscreenSignaturePad.isEmpty()) {
+              showFlashMessage('Por favor, realiza una firma primero.', 'danger');
+              return;
+          }
+
+          // Guardar la firma en la variable
+          savedSignature = fullscreenSignaturePad.toDataURL('image/png');
+          
+          // Cerrar pantalla completa
+          document.exitFullscreen();
+
+          showFlashMessage('Firma guardada con éxito.', 'success');
+      });
+      
+      document.getElementById('clearFullCanvas').addEventListener('click', () => {
+          fullscreenSignaturePad.clear();
+      });
+      
+      document.getElementById('cancelFullCanvas').addEventListener('click', () => {
+          fullscreenSignaturePad.clear();
+          savedSignature = null;
+          document.exitFullscreen();
+      });
+  }
+
+  // Manejar salida de pantalla completa
+  document.addEventListener('fullscreenchange', (e) => {
+      if (!document.fullscreenElement) {
+          if (fullscreenContainer) {
+              fullscreenContainer.remove();
+              fullscreenSignaturePad = null;
+              fullscreenContainer = null;
+          }
+      }
   });
 
   // --- Validación de inputs en tiempo real ---
@@ -127,12 +225,10 @@ document.addEventListener("DOMContentLoaded", () => {
       showFlashMessage("El mail no es válido.", 'danger');
       return;
     }
-    if (signaturePad.isEmpty()) {
+    if (!savedSignature) {
       showFlashMessage("Por favor, realiza una firma primero.", 'danger');
       return;
-    }
-
-    const firma = signaturePad.toDataURL('image/png');
+  }
 
     const cleanedRut = rut.replace(/[\.\-]/g, '').toUpperCase();
 
@@ -147,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
       apellido,
       mail,
       celular,
-      firma,
+      firma: savedSignature,
       timestamp: Date.now(),
       employeeAuthor: empleado ? empleado.name : "No Registrado"
     };
@@ -156,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(() => {
         showFlashMessage('Usuario registrado con éxito.', 'success');
         form.reset();
-        signaturePad.clear();
+        savedSignature = null;
       })
       .catch((error) => {
         // Mostrar mensaje específico si el error es por RUT duplicado
